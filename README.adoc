@@ -51,7 +51,7 @@ Le projet est réalisé par :
 https://github.com/34lks66[*Mucahit Lekesiz*] | *Chef d'équipe* |
 https://github.com/Ezeloss[*Léo Guinvarc'h*] | *Développeur* |
 https://github.com/Laloix23[*Loic Phrakousonh*] | *Développeur* |
-https://github.com/Laloix23[*Laguiliez Mathys*] | *Développeur* |
+https://github.com/LaguilliezMathys[*Laguilliez Mathys*] | *Développeur* |
 |===
 
 
