@@ -48,9 +48,10 @@ Le projet est réalisé par :
 2+^| *Équipe G2b12*
 2+|
 | Nom | Rôle |
-https://github.com/34lks66[*Mucahit Lekesiz*] | *Pire Chef d'équipe du monde et de loins le meilleur dans sa catégorie* |
+https://github.com/34lks66[*Mucahit Lekesiz*] | *Chef d'équipe* |
 https://github.com/Ezeloss[*Léo Guinvarc'h*] | *Développeur* |
 https://github.com/Laloix23[*Loic Phrakousonh*] | *Développeur* |
+https://github.com/Laloix23[*Laguiliez Mathys*] | *Développeur* |
 |===
 
 
