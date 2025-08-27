@@ -2,3 +2,31 @@
   color: aqua;
   text-align: center;
 }
+
+.parent {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 49px;
+    text-align: center;
+}
+    
+.div1 {
+    grid-column: span 2 / span 2;
+    grid-row: span 10 / span 10;
+    background-color: aqua;
+}
+
+.div2 {
+    grid-column: span 2 / span 2;
+    grid-row: span 10 / span 10;
+    grid-column-start: 3;
+    background-color: aqua;
+}
+
+.div3 {
+    grid-column: span 2 / span 2;
+    grid-row: span 10 / span 10;
+    grid-column-start: 5;
+    background-color: aqua;
+}
