@@ -1,32 +1,48 @@
 .title {
   color: aqua;
   text-align: center;
+  margin-bottom: 20px;
 }
 
 .parent {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    grid-template-rows: repeat(5, 1fr);
-    gap: 49px;
-    text-align: center;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 20px;
+  padding: 20px;
+  text-align: center;
 }
-    
+
+.div1, .div2, .div3 {
+  border-radius: 15px;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; 
+}
+
+.column-header {
+  padding: 12px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  border-bottom: 2px solid rgba(0,0,0,0.2); 
+}
+
+.column-body {
+  flex: 1;
+  padding: 10px;
+}
+
 .div1 {
-    grid-column: span 2 / span 2;
-    grid-row: span 10 / span 10;
-    background-color: aqua;
+  background-color: #3498db; 
+  color: white;
 }
 
 .div2 {
-    grid-column: span 2 / span 2;
-    grid-row: span 10 / span 10;
-    grid-column-start: 3;
-    background-color: aqua;
+  background-color: #f1c40f; 
+  color: black;
 }
 
 .div3 {
-    grid-column: span 2 / span 2;
-    grid-row: span 10 / span 10;
-    grid-column-start: 5;
-    background-color: aqua;
+  background-color: #2ecc71; 
+  color: white;
 }
