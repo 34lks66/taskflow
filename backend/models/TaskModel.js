@@ -1,4 +1,4 @@
-import { Schema, model, models } from 'mongoose'
+// import { Schema, model, models } from 'mongoose'
 const mongoose = require('mongoose')
 
 const taskSchema = new mongoose.Schema({
@@ -30,6 +30,9 @@ const taskSchema = new mongoose.Schema({
     }
 })
 
-const Task = models.task || model('Task', taskSchema) // pour éviter que Mongoose redéclare le modèle plusieurs fois
+// const Task = models.task || model('Task', taskSchema) // pour éviter que Mongoose redéclare le modèle plusieurs fois
 
-export default Task;
+// mongoose.exports = mongoose.model("Task", taskSchema);
+module.exports = mongoose.models.task || mongoose.model("Task", taskSchema);
+
+// export default Task;
