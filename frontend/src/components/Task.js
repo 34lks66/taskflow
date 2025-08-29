@@ -38,15 +38,6 @@ export default function Task( {setSelectedTask}) {
       .catch((err) => console.log(err));
     }, [])
 
-    const getPriority = (priority) => {
-      switch(priority) {
-        case 'Haute': return 'bg-red-600';
-        case 'Moyenne': return 'bg-yellow-600';
-        case 'Basse': return 'bg-green-600';
-        default: return 'bg-gray-600';
-      }
-    }
-
     const formatDate = (dateString) => {
       if(!dateString) return 'N/A';
       const date = new Date(dateString);
