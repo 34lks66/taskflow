@@ -1,6 +1,7 @@
 import './ToDo.css';
 import Hero from './components/Hero';
 import Task from './components/Task';
+import Form from './components/Form';
 
 const handleButtonClick = () => {
   const Element = document.querySelector('#lasection')
@@ -27,6 +28,7 @@ export default function ToDo() {
 
       <Hero />
       <Task />
+      <Form />
 
       <section id="lasection">
       <div className="parent">
