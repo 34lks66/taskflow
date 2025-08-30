@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
+import edit from "../edit_line.svg";
 
 // const tasks = [
 //     {
 //       id: 1,
 //       title: 'task 1',
-//       startDate: '01/09/2025', 
+//       startDate: '01/09/2025',
 //       endDate: '02/09/2025',
 //       description: 'rentrée',
 //       statut: 'enCours',
@@ -12,7 +13,7 @@ import React, { useState, useEffect } from "react";
 //     {
 //       id: 2,
 //       title: 'task 2',
-//       startDate: '10/09/2025', 
+//       startDate: '10/09/2025',
 //       endDate: '15/09/2025',
 //       description: 'lol',
 //       statut: 'A Faire',
@@ -20,47 +21,149 @@ import React, { useState, useEffect } from "react";
 //     {
 //       id: 3,
 //       title: 'task 3',
-//       startDate: '20/09/2025', 
+//       startDate: '20/09/2025',
 //       endDate: '30/09/2025',
 //       description: '.exe',
 //       statut: 'Fini',
 //     },
 // ]
 
-export default function Task( {setSelectedTask}) {
-  
-    const [tasks, setTasks] = useState([]);
+export default function Task({ setSelectedTask }) {
+  const [editingTask, setEditingTask] = useState(null);
+  const [tasks, setTasks] = useState([]);
 
-    useEffect(() => {
-      fetch('http://localhost:5000/api/get')
+  useEffect(() => {
+    fetch("http://localhost:5000/api/get")
       .then((res) => res.json())
       .then((data) => setTasks(data))
       .catch((err) => console.log(err));
-    }, [])
-    return (
-        <section id="task" className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {tasks.map((task) => (
-                <div
-                key={task._id}
-                id={task._id}
-                task={task.task}
-                className="cursor-pointer transition-all duration-300 hover:scale-105"
-                >
-                <div className="relative overflow-hidden rounded-lg shadow-lg group min-h-40 bg-gray-800">
-                    <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent text-white">
-                    <h4 className="font-semibold text-sm">{task.TaskName}</h4>
-                    <p>{task.TaskState}</p>
-                    <p>{task.TaskPriority}</p>
-                    <p className="text-xs opacity-90">{task.TaskStartDate} • {task.TaskEndDate}</p>
-                    </div>
+  }, []);
+
+  return (
+    <section id="task" className="py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {tasks.map((task) => (
+            <div
+              key={task._id}
+              id={task._id}
+              task={task.task}
+              className="cursor-pointer transition-all duration-300 hover:scale-105"
+            >
+              <div className="relative overflow-hidden rounded-lg shadow-lg group min-h-40 bg-gray-800">
+                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent text-white">
+                  <h4 className="font-semibold text-sm">{task.TaskName}</h4>
+                  <p>{task.TaskState}</p>
+                  <p>{task.TaskPriority}</p>
+                  <p className="text-xs opacity-90">
+                    {task.TaskStartDate} • {task.TaskEndDate}
+                  </p>
+                  <button
+                    onClick={() => setEditingTask(task)}
+                    className="mt-2 flex items-center px-3 py-1 bg-blue-500 text-white text-xs font-medium rounded hover:bg-blue-600 transition"
+                  >
+                    <img src={edit} alt="Edit" className="w-4 h-4 mr-2" />{" "}
+                    Modifier
+                  </button>
                 </div>
+              </div>
             </div>
-            ))}
-            </div>
+          ))}
         </div>
-        </section>
-    );
+        {/* si il ya une tache dans editingTask on affiche le form */}
+        {editingTask && (
+          <EditForm task={editingTask} onClose={() => setEditingTask(null)} />
+        )}
+      </div>
+    </section>
+  );
+}
+
+function EditForm({ task, onClose }) {
+  const [TaskName, setName] = useState(task.TaskName || "");
+  const [TaskState, setState] = useState(task.TaskState || "A Faire");
+  const [TaskStartDate, setDateS] = useState(task.TaskStartDate || "");
+  const [TaskEndDate, setDateE] = useState(task.TaskEndDate || "");
+  const [TaskPriority, setPriority] = useState(task.TaskPriority || "Basse");
+  const [TaskDescription, setDescription] = useState(
+    task.TaskDescription || ""
+  );
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+
+    const requestOptions = {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        TaskName: TaskName,
+        TaskState: TaskState,
+        TaskStartDate: TaskStartDate,
+        TaskEndDate: TaskEndDate,
+        TaskPriority: TaskPriority,
+        TaskDescription: TaskDescription,
+      }),
+    };
+
+    fetch(`http://localhost:5000/api/update/${task._id}`, requestOptions)
+      .then((response) => response.status)
+      .then((data) => {
+        console.log("Tache mis a jour:", data);
+        onClose();
+      })
+      .catch((err) => console.error("erreur lors de la maj:", err));
+  };
+
+  return (
+    <form onSubmit={onSubmit}>
+      <input
+        value={TaskName}
+        onChange={(e) => setName(e.target.value)}
+        placeholder="Task Name"
+      />
+      <select value={TaskState} onChange={(e) => setState(e.target.value)}>
+        <option>A Faire</option>
+        <option>En Cours</option>
+        <option>Fini</option>
+      </select>
+      <input
+        type="date"
+        value={TaskStartDate}
+        onChange={(e) => setDateS(e.target.value)}
+      />
+      <input
+        type="date"
+        value={TaskEndDate}
+        onChange={(e) => setDateE(e.target.value)}
+      />
+      <select
+        value={TaskPriority}
+        onChange={(e) => setPriority(e.target.value)}
+      >
+        <option>Basse</option>
+        <option>Moyenne</option>
+        <option>Haute</option>
+      </select>
+      <textarea
+        value={TaskDescription}
+        onChange={(e) => setDescription(e.target.value)}
+        placeholder="Task Description"
+      />
+
+      <button
+        type="submit"
+        className="px-4 py-2 bg-blue-500 text-white font-medium rounded hover:bg-blue-600 transition"
+      >
+        Modifier
+      </button>
+
+      <button
+        type="button"
+        onClick={onClose}
+        className="px-4 py-2 bg-gray-300 text-gray-800 font-medium rounded hover:bg-gray-400 transition"
+      >
+        Annuler
+      </button>
+    </form>
+  );
 }
