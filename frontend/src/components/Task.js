@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import edit from "../edit_line.svg";
 
 // const tasks = [
 //     {
@@ -28,7 +29,7 @@ import React, { useState, useEffect } from "react";
 // ]
 
 export default function Task( {setSelectedTask}) {
-  
+    const [editingTask, setEditingTask] = useState(null);
     const [tasks, setTasks] = useState([]);
 
     useEffect(() => {
@@ -94,10 +95,112 @@ export default function Task( {setSelectedTask}) {
                         </div>
                       </div>
                     </div>
+
+                    {/* EDITION */}
+                    <button
+                    onClick={() => setEditingTask(task)}
+                    className="mt-2 flex items-center px-3 py-1 bg-blue-500 text-white text-xs font-medium rounded hover:bg-blue-600 transition"
+                  >
+                    <img src={edit} alt="Edit" className="w-4 h-4 mr-2" />{" "}
+                    Modifier
+                  </button>
                 </div>
             </div>
             ))}
           </div>
+          {/* si il ya une tache dans editingTask on affiche le form */}
+          {editingTask && (
+          <EditForm task={editingTask} onClose={() => setEditingTask(null)} />
+          )}
         </section>
     );
+}
+
+function EditForm({ task, onClose }) {
+  const [TaskName, setName] = useState(task.TaskName || "");
+  const [TaskState, setState] = useState(task.TaskState || "A Faire");
+  const [TaskStartDate, setDateS] = useState(task.TaskStartDate || "");
+  const [TaskEndDate, setDateE] = useState(task.TaskEndDate || "");
+  const [TaskPriority, setPriority] = useState(task.TaskPriority || "Basse");
+  const [TaskDescription, setDescription] = useState(
+    task.TaskDescription || ""
+  );
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+
+    const requestOptions = {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        TaskName: TaskName,
+        TaskState: TaskState,
+        TaskStartDate: TaskStartDate,
+        TaskEndDate: TaskEndDate,
+        TaskPriority: TaskPriority,
+        TaskDescription: TaskDescription,
+      }),
+    };
+
+    fetch(`http://localhost:5000/api/update/${task._id}`, requestOptions)
+      .then((response) => response.status)
+      .then((data) => {
+        console.log("Tache mis a jour:", data);
+        onClose();
+      })
+      .catch((err) => console.error("erreur lors de la maj:", err));
+  };
+
+  return (
+    <form onSubmit={onSubmit}>
+      <input
+        value={TaskName}
+        onChange={(e) => setName(e.target.value)}
+        placeholder="Task Name"
+      />
+      <select value={TaskState} onChange={(e) => setState(e.target.value)}>
+        <option>A Faire</option>
+        <option>En Cours</option>
+        <option>Fini</option>
+      </select>
+      <input
+        type="date"
+        value={TaskStartDate}
+        onChange={(e) => setDateS(e.target.value)}
+      />
+      <input
+        type="date"
+        value={TaskEndDate}
+        onChange={(e) => setDateE(e.target.value)}
+      />
+      <select
+        value={TaskPriority}
+        onChange={(e) => setPriority(e.target.value)}
+      >
+        <option>Basse</option>
+        <option>Moyenne</option>
+        <option>Haute</option>
+      </select>
+      <textarea
+        value={TaskDescription}
+        onChange={(e) => setDescription(e.target.value)}
+        placeholder="Task Description"
+      />
+
+      <button
+        type="submit"
+        className="px-4 py-2 bg-blue-500 text-white font-medium rounded hover:bg-blue-600 transition"
+      >
+        Modifier
+      </button>
+
+      <button
+        type="button"
+        onClick={onClose}
+        className="px-4 py-2 bg-gray-300 text-gray-800 font-medium rounded hover:bg-gray-400 transition"
+      >
+        Annuler
+      </button>
+    </form>
+  );
 }
