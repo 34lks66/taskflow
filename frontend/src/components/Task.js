@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
+import edit from "../edit_line.svg";
 
 // const tasks = [
 //     {
 //       id: 1,
 //       title: 'task 1',
-//       startDate: '01/09/2025', 
+//       startDate: '01/09/2025',
 //       endDate: '02/09/2025',
 //       description: 'rentrée',
 //       statut: 'enCours',
@@ -12,7 +13,7 @@ import React, { useState, useEffect } from "react";
 //     {
 //       id: 2,
 //       title: 'task 2',
-//       startDate: '10/09/2025', 
+//       startDate: '10/09/2025',
 //       endDate: '15/09/2025',
 //       description: 'lol',
 //       statut: 'A Faire',
@@ -20,19 +21,19 @@ import React, { useState, useEffect } from "react";
 //     {
 //       id: 3,
 //       title: 'task 3',
-//       startDate: '20/09/2025', 
+//       startDate: '20/09/2025',
 //       endDate: '30/09/2025',
 //       description: '.exe',
 //       statut: 'Fini',
 //     },
 // ]
 
-export default function Task( {setSelectedTask}) {
-  
-    const [tasks, setTasks] = useState([]);
+export default function Task({ setSelectedTask }) {
+  const [editingTask, setEditingTask] = useState(null);
+  const [tasks, setTasks] = useState([]);
 
-    useEffect(() => {
-      fetch('http://localhost:5000/api/get')
+  useEffect(() => {
+    fetch("http://localhost:5000/api/get")
       .then((res) => res.json())
       .then((data) => setTasks(data))
       .catch((err) => console.log(err));
@@ -66,7 +67,7 @@ export default function Task( {setSelectedTask}) {
                     {/* NOM */}
                     <h3 className="text-lg font-semibold text-gray-800 truncate">{task.TaskName}</h3>
                     {/* STATUT */}
-                    <span className="text-xs font-medium font-gray-500 bg-gray-100 px-2 py-1 rounded">{task.TaskState}</span>
+                    <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded">{task.TaskState}</span>
                   </div>
 
                   <div className="flex items-center text-sm text-gray-600 mb-4">
@@ -82,21 +83,21 @@ export default function Task( {setSelectedTask}) {
                     )}
 
                     {/* DATE */}
-                    <div className="border-t border-gray-200 bg-white/80 backdrop-blur-sm p4">
+                    <div className="border-t border-gray-200 bg-white/80 backdrop-blur-sm p-4">
                       <div className="space-y-2">
-                        <div className="flex-items-center gap-2 text-sm text-gray-600">
+                        <div className="flex items-center gap-2 text-sm text-gray-600">
                           <span className="font-medium">Début: </span>
                           <span>{formatDate(task.TaskStartDate)}</span>
                         </div>
-                        <div className="flex-items-center gap-2 text-sm text-gray-600">
+                        <div className="flex items-center gap-2 text-sm text-gray-600">
                           <span className="font-medium">Fin: </span>
                           <span>{formatDate(task.TaskEndDate)}</span>
                         </div>
                       </div>
                     </div>
                 </div>
-            </div>
-            ))}
+              </div>
+          ))}
           </div>
         </section>
     );
