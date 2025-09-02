@@ -30,8 +30,32 @@ import edit from "../edit_line.svg";
 
 export default function Task({ task }) {
     const [editingTask, setEditingTask] = useState(null);
-    const [deleteTask, setDeleteTask] = useState(null);
 
+  const handleDelete = async (id) => {
+  const Delete = window.confirm("⚠️ Voulez-vous vraiment supprimer cette tâche ?");
+
+  if(!Delete){
+    console.log("Annulation de la suppression")
+    return;
+  }
+  
+  try {
+    const res = await fetch(`http://localhost:5000/api/delete/${id}`, {
+      method: "DELETE",
+    });
+
+    if (res.ok) {
+      console.log("✅ Tâche supprimée !");
+    } else {
+      console.error("❌ Erreur lors de la suppression:", res.status);
+    }
+  } catch (err) {
+    console.error("Erreur réseau:", err);
+  }
+};
+
+
+    
 
     const formatDate = (dateString) => {
       if(!dateString) return 'N/A';
@@ -84,7 +108,7 @@ export default function Task({ task }) {
 
                     {/* SUPPRESSION */}
                     <button
-                    onClick={() => setDeleteTask(task)}
+                    onClick={() => handleDelete(task._id)}
                     className="mt-2 flex items-center px-3 py-1 bg-blue-500 text-white text-xs font-medium rounded hover:bg-blue-600 transition"
                   >
                     <img src={edit} alt="Edit" className="w-4 h-4 mr-2" />{" "}
@@ -196,8 +220,4 @@ function EditForm({ task, onClose }) {
       </button>
     </form>
   );
-
-  function DeleteTask({ task }) {
-  }
-
 }
