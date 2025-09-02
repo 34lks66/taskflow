@@ -30,6 +30,8 @@ import edit from "../edit_line.svg";
 
 export default function Task({ task }) {
     const [editingTask, setEditingTask] = useState(null);
+    const [deleteTask, setDeleteTask] = useState(null);
+
 
     const formatDate = (dateString) => {
       if(!dateString) return 'N/A';
@@ -79,6 +81,15 @@ export default function Task({ task }) {
                         </div>
                       </div>
                     </div>
+
+                    {/* SUPPRESSION */}
+                    <button
+                    onClick={() => setDeleteTask(task)}
+                    className="mt-2 flex items-center px-3 py-1 bg-blue-500 text-white text-xs font-medium rounded hover:bg-blue-600 transition"
+                  >
+                    <img src={edit} alt="Edit" className="w-4 h-4 mr-2" />{" "}
+                    Supprimer
+                  </button>
 
                     {/* EDITION */}
                     <button
@@ -185,4 +196,8 @@ function EditForm({ task, onClose }) {
       </button>
     </form>
   );
+
+  function DeleteTask({ task }) {
+  }
+
 }
