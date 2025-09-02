@@ -28,7 +28,7 @@ import edit from "../edit_line.svg";
 //     },
 // ]
 
-export default function Task({ task, setSelectedTask }) {
+export default function Task({ task }) {
     const [editingTask, setEditingTask] = useState(null);
 
     const formatDate = (dateString) => {
@@ -42,7 +42,6 @@ export default function Task({ task, setSelectedTask }) {
     };
 
     return (
-        <div onClick={() => setSelectedTask(task)}>
         <section id="task" className="py-12 bg-w">
             {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"> */}
                 <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-5 cursor-pointer hover:shadow-md transition-all">
@@ -83,7 +82,7 @@ export default function Task({ task, setSelectedTask }) {
 
                     {/* EDITION */}
                     <button
-                    onClick={() => setEditingTask(setSelectedTask)}
+                    onClick={() => setEditingTask(task)}
                     className="mt-2 flex items-center px-3 py-1 bg-blue-500 text-white text-xs font-medium rounded hover:bg-blue-600 transition"
                   >
                     <img src={edit} alt="Edit" className="w-4 h-4 mr-2" />{" "}
@@ -96,7 +95,6 @@ export default function Task({ task, setSelectedTask }) {
           <EditForm task={editingTask} onClose={() => setEditingTask(null)} />
           )}
         </section>
-        </div>
     );
 }
 
