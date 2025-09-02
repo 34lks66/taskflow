@@ -84,36 +84,7 @@ export default function Task({ task }) {
 
                     {/* SUPPRESSION */}
                     <button
-                    onClick={() => setDeleteTask(task)}
-                    className="mt-2 flex items-center px-3 py-1 bg-blue-500 text-white text-xs font-medium rounded hover:bg-blue-600 transition"
-                  >
-                    <img src={edit} alt="Edit" className="w-4 h-4 mr-2" />{" "}
-                    Supprimer
-                  </button>
-
-                    {/* EDITION */}
-                    <button
-                    onClick={() => setEditingTask(task)}
-                    className="mt-2 flex items-center px-3 py-1 bg-blue-500 text-white text-xs font-medium rounded hover:bg-blue-600 transition"
-                  >
-                    <img src={edit} alt="Edit" className="w-4 h-4 mr-2" />{" "}
-                    Modifier
-                  </button>
-            </div>
-          {/* </div> */}
-          {/* si il ya une tache dans editingTask on affiche le form */}
-          {editingTask && (
-          <EditForm task={editingTask} onClose={() => setEditingTask(null)} />
-          )}
-        </section>
-    );
-}
-
-function EditForm({ task, onClose }) {
-  const [TaskName, setName] = useState(task.TaskName || "");
-  const [TaskState, setState] = useState(task.TaskState || "A Faire");
-  const [TaskStartDate, setDateS] = useState(task.TaskStartDate || "");
-  const [TaskEndDate, setDateE] = useState(task.TaskEndDate || "");
+                    o
   const [TaskPriority, setPriority] = useState(task.TaskPriority || "Basse");
   const [TaskDescription, setDescription] = useState(
     task.TaskDescription || ""
